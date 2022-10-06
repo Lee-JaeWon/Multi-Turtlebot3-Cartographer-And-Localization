@@ -1,0 +1,7 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/lee-jaewon/catkin_ws/devel/lib/python3/dist-packages",
+        "/home/lee-jaewon/carto_ws/install_isolated/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
+}

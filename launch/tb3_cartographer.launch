@@ -1,0 +1,160 @@
+<!-- 
+author : LeeJaewon
+email : jawwoni@naver.com
+GitHub : Lee-JaeWon 
+-->
+
+<launch>
+
+    <!-- Arguments -->
+    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+    <arg name="slam_methods" default="cartographer" doc="slam type [gmapping, cartographer, hector, karto, frontier_exploration]"/>
+    <arg name="open_rviz" default="true"/>
+    <arg name="run_teleop" default="true"/>
+
+    <!-- Arguments : turtlebots -->
+    <arg name="first_tb3" default="tb3_1"/>
+    <arg name="second_tb3" default="tb3_2"/>
+    <arg name="third_tb3" default="tb3_3"/>
+
+    <arg name="cmd_vel_topic" default="/cmd_vel" />
+    <arg name="odom_topic" default="odom" />
+    <arg name="move_forward_only" default="false"/>
+    <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
+
+    <!-- For tb3_1 -->
+    <group ns = "$(arg first_tb3)">
+
+        <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+            <arg name="model" value="$(arg model)" />
+            <arg name="multi_robot_name" value="$(arg first_tb3)"/>
+        </include>
+        
+        <param name="robot_description" command="$(find xacro)/xacro $(find multi_tb3_cartographer)/urdf/turtlebot3_burger.urdf.xacro botname:=$(arg first_tb3)" />
+
+        <!-- <include file="$(find turtlebot3_teleop)/launch/turtlebot3_teleop_key.launch">
+        </include> -->
+
+        <!-- move_base -->
+        <include file="$(find multi_tb3_cartographer)/launch/includes/move_base.launch">
+            <arg name="model" value="$(arg model)" />
+            <arg name="namespace" value="$(arg first_tb3)" />
+        </include>
+
+        <!-- flat_world_imu_node -->
+        <node pkg="turtlebot3_slam" type="flat_world_imu_node" name="flat_world_imu_node" output="screen">
+            <remap from="imu_in" to="imu" />
+            <remap from="imu_out" to="flat_imu" />
+        </node>
+
+        <!-- cartographer_node -->
+        <node pkg="cartographer_ros" type="cartographer_node" name="cartographer_node" 
+                args="-configuration_directory $(find multi_tb3_cartographer)/lua
+                    -configuration_basename $(arg first_tb3)_$(arg configuration_basename)"
+                output="screen">
+            <remap from="imu" to="flat_imu"/>
+        </node>
+
+        <!-- cartographer_occupancy_grid_node -->
+        <node pkg="cartographer_ros" type="cartographer_occupancy_grid_node"
+                name="cartographer_occupancy_grid_node" 
+                args="-resolution 0.05">
+        </node>
+    </group>
+
+    <!-- For tb3_2 -->
+    <group ns = "$(arg second_tb3)">
+
+        <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+            <arg name="model" value="$(arg model)" />
+            <arg name="multi_robot_name" value="$(arg second_tb3)"/>
+        </include>
+        
+        <param name="robot_description" command="$(find xacro)/xacro $(find multi_tb3_cartographer)/urdf/turtlebot3_burger.urdf.xacro botname:=$(arg second_tb3)" />
+
+        <!-- <include file="$(find turtlebot3_teleop)/launch/turtlebot3_teleop_key.launch">
+        </include> -->
+
+        <!-- move_base -->
+        <include file="$(find multi_tb3_cartographer)/launch/includes/move_base.launch">
+            <arg name="model" value="$(arg model)" />
+            <arg name="namespace" value="$(arg second_tb3)" />
+        </include>
+
+        <!-- flat_world_imu_node -->
+        <node pkg="turtlebot3_slam" type="flat_world_imu_node" name="flat_world_imu_node" output="screen">
+            <remap from="imu_in" to="imu" />
+            <remap from="imu_out" to="flat_imu" />
+        </node>
+
+        <!-- cartographer_node -->
+        <node pkg="cartographer_ros" type="cartographer_node" name="cartographer_node" 
+                args="-configuration_directory $(find multi_tb3_cartographer)/lua
+                    -configuration_basename $(arg second_tb3)_$(arg configuration_basename)"
+                output="screen">
+            <remap from="imu" to="flat_imu"/>
+        </node>
+
+        <!-- cartographer_occupancy_grid_node -->
+        <node pkg="cartographer_ros" type="cartographer_occupancy_grid_node"
+                name="cartographer_occupancy_grid_node" 
+                args="-resolution 0.05" >
+        </node>
+    </group>
+    
+    <!-- For tb3_3 -->
+    <group ns = "$(arg third_tb3)">
+
+        <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+            <arg name="model" value="$(arg model)" />
+            <arg name="multi_robot_name" value="$(arg third_tb3)"/>
+        </include>
+        
+        <param name="robot_description" command="$(find xacro)/xacro $(find multi_tb3_cartographer)/urdf/turtlebot3_burger.urdf.xacro botname:=$(arg third_tb3)" />
+
+        <!-- <include file="$(find turtlebot3_teleop)/launch/turtlebot3_teleop_key.launch">
+        </include> -->
+
+        <!-- move_base -->
+        <include file="$(find multi_tb3_cartographer)/launch/includes/move_base.launch">
+            <arg name="model" value="$(arg model)" />
+            <arg name="namespace" value="$(arg third_tb3)" />
+        </include>
+
+        <!-- flat_world_imu_node -->
+        <node pkg="turtlebot3_slam" type="flat_world_imu_node" name="flat_world_imu_node" output="screen">
+            <remap from="imu_in" to="imu" />
+            <remap from="imu_out" to="flat_imu" />
+        </node>
+
+        <!-- cartographer_node -->
+        <node pkg="cartographer_ros" type="cartographer_node" name="cartographer_node" 
+                args="-configuration_directory $(find multi_tb3_cartographer)/lua
+                    -configuration_basename $(arg third_tb3)_$(arg configuration_basename)"
+                output="screen">
+            <remap from="imu" to="flat_imu"/>
+        </node>
+
+        <!-- cartographer_occupancy_grid_node -->
+        <node pkg="cartographer_ros" type="cartographer_occupancy_grid_node"
+                name="cartographer_occupancy_grid_node" 
+                args="-resolution 0.05" >
+        </node>
+    </group>
+
+    <node pkg="tf" type="static_transform_publisher" name="$(arg first_tb3)_map_to_$(arg first_tb3)_odom"  args="0 0 0 0 0 0 /$(arg first_tb3)/map /$(arg first_tb3)/odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg first_tb3)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg first_tb3)/map 100"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="$(arg second_tb3)_map_to_$(arg second_tb3)_odom"  args="0 0 0 0 0 0 /$(arg second_tb3)/map /$(arg second_tb3)/odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg second_tb3)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg second_tb3)/map 100"/>
+    
+    <node pkg="tf" type="static_transform_publisher" name="$(arg third_tb3)_map_to_$(arg third_tb3)_odom"  args="0 0 0 0 0 0 /$(arg third_tb3)/map /$(arg third_tb3)/odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="world_to_$(arg third_tb3)_tf_broadcaster"  args="0 0 0 0 0 0 /map /$(arg third_tb3)/map 100"/>
+
+    <!-- rviz -->
+    <group if="$(arg open_rviz)"> 
+        <node pkg="rviz" type="rviz" name="rviz" required="true"
+            args="-d $(find multi_tb3_cartographer)/rviz/tb3_carto.rviz"/>
+    </group>
+
+</launch>
