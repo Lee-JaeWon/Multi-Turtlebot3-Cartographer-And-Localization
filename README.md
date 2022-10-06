@@ -46,3 +46,8 @@ roslaunch multi_tb3_cartographer tb3_cartographer.launch
 ```
 ## Edit
 To change the number of robots, it is necessary to modify the launch file and add the lua file. The settings related to the TF Tree are sensitive, so care must be taken when modifying them.
+
+## Reference
+This repository used Turtlebot3 (ROBOTIS) and Cartographer (Google) packages, and the copyright is held by the company.<br>
+[ROBOTIS : emanual](https://emanual.robotis.com/docs/en/platform/turtlebot3/slam/#run-slam-node)<br>
+[Cartographer](https://google-cartographer-ros.readthedocs.io/en/latest/)
