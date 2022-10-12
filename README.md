@@ -46,6 +46,8 @@ source catkin_ws/devel/setup.bash
 roslaunch multi_tb3_cartographer tb3_cartographer.launch
 ```
 ## Localization : AMCL
+It performs localization on a given map and reaches the target point using ROS navigation stack when setting the target point respectively(in rviz).<br>
+This repository visualizes the current location and sampled path.<br><br>
 ### For Turtlebot3
 All robots do this,
 ```
@@ -78,9 +80,10 @@ catkin_make
 source catkin_ws/devel/setup.bash
 ```
 ```
-roslaunch multi_tb3_cartographer tb3_cartographer.launch
+roslaunch multi_tb3_cartographer tb3_localization.launch
 ```
-<p align="center"><img src="/doc/1.png" width = "500" ></p>
+<p align="center"><img src="/doc/1.png" width = "600" ></p>
+<p align="center"><img src="/doc/2.png" width = "600" ></p>
 
 ## Edit
 To change the number of robots, it is necessary to modify the launch file and add the lua file. The settings related to the TF Tree are sensitive, so care must be taken when modifying them.
