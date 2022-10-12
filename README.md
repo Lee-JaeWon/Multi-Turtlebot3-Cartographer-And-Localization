@@ -31,7 +31,7 @@ ROS_NAMESPACE=tb3_3 roslaunch turtlebot3_bringup turtlebot3_robot.launch multi_r
 roscore
 ```
 ```
-git clone https://github.com/Lee-JaeWon/Multi-Turtlebot3-Cartographer.git
+git clone https://github.com/Lee-JaeWon/Multi-Turtlebot3-Cartographer-And-Localization.git
 ```
 ```
 cd catkin_ws/
@@ -68,7 +68,7 @@ ROS_NAMESPACE=tb3_2 roslaunch turtlebot3_bringup turtlebot3_robot.launch multi_r
 roscore
 ```
 ```
-git clone https://github.com/Lee-JaeWon/Multi-Turtlebot3-Cartographer.git
+git clone https://github.com/Lee-JaeWon/Multi-Turtlebot3-Cartographer-And-Localization.git
 ```
 ```
 cd catkin_ws/
